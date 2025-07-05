@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Personal Portfolio</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#Home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><button id="theme-toggle" aria-label="Toggle theme">🌙</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="hero">
+        <div class="hero-content">
+            <div class="glitch-text">
+                <h1 data-text="Hi, I'm Ray">Hi, I'm Ray</h1>
+            </div>
+            <p class="typewriter">Code Producer, Programming Architect</p>
+            <div class="hero-buttons">
+                <a href="#projects" class="btn neon-btn">View My Work</a>
+                <a href="#contact" class="btn outline-btn">Get In Touch</a>
+            </div>
+        </div>
+        <div class="hero-bg">
+            <div class="floating-particles"></div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Python developer interested in artificial intelligence, software development, and competitive coding</p>
+                    <div class="skills">
+                        <div class="skill-item">
+                            <span class="skill-name">Frontend Development</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="55%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">Backend Development</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="98%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">UI/UX Design</span>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="75%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-visual">
+                    <div class="hologram-effect"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <div class="container">
+            <h2 class="section-title">My Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card" data-tilt>
+                    <div class="project-image">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="#" class="project-link">Live Demo</a>
+                                <a href="#" class="project-link">GitHub</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>DepartCan</h3>
+                        <p>A program which combines border wait times from U.S. government website to Google Maps to provide a more accurate calculation of total travel time.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Selenium</span>
+                            <span class="tech-tag">Playwright</span>
+                            <span class="tech-tag">Google Maps API</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" data-tilt>
+                    <div class="project-image">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="#" class="project-link">Live Demo</a>
+                                <a href="#" class="project-link">GitHub</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Music Recommender</h3>
+                        <p>Trained off of a dataset, this program can provide recommendation of a similar song</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Numpy</span>
+                            <span class="tech-tag">Pandas</span>
+                            <span class="tech-tag">Scikit-learn</span>
+                            <span class="tech-tag">Matplotlib</span>
+                            <span class="tech-tag">Seaborn</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" data-tilt>
+                    <div class="project-image">
+                        <div class="project-overlay">
+                            <div class="project-links">
+                                <a href="#" class="project-link">Live Demo</a>
+                                <a href="#" class="project-link">GitHub</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>FocuStayer</h3>
+                        <p>A program to detect whether you are scrolling on your phone or working</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">CV2</span>
+                            <span class="tech-tag">MediaPipe</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <h2 class="section-title">Contact Me</h2>
+            <div class="contact-content">
+                <div class="contact-form">
+                    <form id="contact-form">
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" placeholder="Your Name" required>
+                            <label for="name">Name</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder="Your Email" required>
+                            <label for="email">Email</label>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" placeholder="Your Message" required></textarea>
+                            <label for="message">Message</label>
+                        </div>
+                        <button type="submit" class="btn neon-btn">Send Message</button>
+                    </form>
+                </div>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div>
+                            <h4>Email</h4>
+                            <p>ray@example.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">💼</div>
+                        <div>
+                            <h4>LinkedIn</h4>
+                            <p>linkedin.com/in/Ray</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">🐱</div>
+                        <div>
+                            <h4>GitHub</h4>
+                            <p>github.com/Ray</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2025 Ray. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link">GitHub</a>
+                    <a href="#" class="social-link">LinkedIn</a>
+                    <a href="#" class="social-link">Twitter</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
