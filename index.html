@@ -78,8 +78,7 @@
                     <div class="project-image">
                         <div class="project-overlay">
                             <div class="project-links">
-                                <a href="#" class="project-link">Live Demo</a>
-                                <a href="#" class="project-link">GitHub</a>
+                                <a href="https://github.com/Rayhypertyper/DepartCan" class="project-link">GitHub</a>
                             </div>
                         </div>
                     </div>
@@ -97,8 +96,7 @@
                     <div class="project-image">
                         <div class="project-overlay">
                             <div class="project-links">
-                                <a href="#" class="project-link">Live Demo</a>
-                                <a href="#" class="project-link">GitHub</a>
+                                <a href="https://github.com/Rayhypertyper/Music-Recommender" class="project-link">GitHub</a>
                             </div>
                         </div>
                     </div>
@@ -118,8 +116,7 @@
                     <div class="project-image">
                         <div class="project-overlay">
                             <div class="project-links">
-                                <a href="#" class="project-link">Live Demo</a>
-                                <a href="#" class="project-link">GitHub</a>
+                                <a href="https://github.com/Rayhypertyper/focustayer" class="project-link">GitHub</a>
                             </div>
                         </div>
                     </div>
@@ -198,5 +195,27 @@
     </footer>
 
     <script src="js/script.js"></script>
+    <script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('contact-form');
+    if (form) {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            // Hide form fields
+            form.style.display = 'none';
+            // Show success message
+            const parent = form.parentElement;
+            const successMsg = document.createElement('div');
+            successMsg.className = 'contact-success';
+            successMsg.style.padding = '2rem 0';
+            successMsg.style.textAlign = 'center';
+            successMsg.style.color = 'var(--accent-color)';
+            successMsg.style.fontSize = '1.3rem';
+            successMsg.innerHTML = '✅ Message sent! Thank you for reaching out.';
+            parent.appendChild(successMsg);
+        });
+    }
+});
+</script>
 </body>
 </html>
