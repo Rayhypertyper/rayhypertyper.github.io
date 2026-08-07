@@ -63,7 +63,6 @@ const handleContactRequest = async (request, env) => {
     name.length > 120 ||
     !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email) ||
     email.length > 320 ||
-    message.length < 8 ||
     message.length > 5000
   ) {
     return jsonResponse({ error: "Please check the form fields." }, 400);
