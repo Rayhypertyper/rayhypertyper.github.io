@@ -530,15 +530,6 @@ html[data-contact-page="true"] .social-dock {
   background: transparent;
 }
 
-/* Once the flight clone is attached to the orbit item, lift its parent
-   stacking context above the search bar so the planet rotation stays visible. */
-.search-panel.contact-search-panel:has(
-    .contact-flight-rocket[data-flight-anchor="planet"]
-  )
-  .contact-experience {
-  z-index: 21;
-}
-
 .browser-frame:has(.contact-search-panel) {
   height: auto;
   min-height: 100svh;
@@ -2606,21 +2597,23 @@ html[data-contact-page="true"] .social-dock {
   transition: opacity 180ms ease;
 }
 
+.contact-rocket-overlay {
+  position: fixed;
+  z-index: 30;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+  isolation: isolate;
+}
+
 .contact-flight-rocket {
-  position: fixed !important;
-  /* Keep the rotating flight clone above the search bar and contact chrome. */
-  z-index: 2000 !important;
+  position: absolute !important;
+  z-index: 1 !important;
   display: block !important;
   overflow: visible !important;
   pointer-events: none !important;
   transform-origin: 50% 50% !important;
   isolation: isolate;
-}
-
-.contact-flight-rocket[data-flight-anchor="planet"] {
-  /* The landed clone lives inside the moving planet, so its parent carries
-     the orbit transform instead of a second viewport-positioning loop. */
-  position: absolute !important;
 }
 
 .contact-flight-rocket .contact-form__rocket-image {

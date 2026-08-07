@@ -117,12 +117,13 @@ const CONTACT_ORBIT_SPEED_SCALE = 0.34;
 const CONTACT_ORBIT_PERIOD = 42_000 / CONTACT_ORBIT_SPEED_SCALE;
 const CONTACT_ORBIT_ANGULAR_VELOCITY = (Math.PI * 2) / CONTACT_ORBIT_PERIOD;
 const CONTACT_PLANET_LABEL_GAP = 20;
+const CONTACT_LABEL_ROCKET_GAP = 8;
 const CONTACT_SUN_RAY_DIAMETER = {
   mobile: 144,
   desktop: 214,
 } as const;
 const CONTACT_SUN_RAY_MAX_SCALE = 1.04;
-const CONTACT_SUN_MOUSE_PULL_RADIUS_SCALE = 2.34375;
+const CONTACT_SUN_MOUSE_PULL_RADIUS_SCALE = 1.5;
 const CONTACT_SOLAR_SYSTEM_OFFSET_Y = 80;
 const CONTACT_ROCKET_PNG_WIDTH = 1280;
 const CONTACT_ROCKET_PNG_VISIBLE_LEFT = 306;
@@ -540,6 +541,7 @@ export function ContactSection({
   const smokeCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const rocketButtonRef = useRef<HTMLButtonElement | null>(null);
   const rocketFlightLayerRef = useRef<HTMLElement | null>(null);
+  const landedRocketPositionRef = useRef<(() => void) | null>(null);
   const rocketFlightAngleRef = useRef(0);
   const rocketSmokeStartRef = useRef<(() => void) | null>(null);
   const rocketSmokeStopRef = useRef<(() => void) | null>(null);
@@ -674,8 +676,58 @@ export function ContactSection({
       };
     };
 
+    const getRocketCollisionRects = () => {
+      const rects: Array<{
+        left: number;
+        top: number;
+        right: number;
+        bottom: number;
+      }> = [];
+      const addRect = (element: HTMLElement | null) => {
+        if (!element) {
+          return;
+        }
+
+        const styles = window.getComputedStyle(element);
+        if (styles.visibility === "hidden" || styles.opacity === "0") {
+          return;
+        }
+
+        const bounds = element.getBoundingClientRect();
+        if (bounds.width <= 0 || bounds.height <= 0) {
+          return;
+        }
+
+        rects.push({
+          left: bounds.left - CONTACT_LABEL_ROCKET_GAP,
+          top: bounds.top - CONTACT_LABEL_ROCKET_GAP,
+          right: bounds.right + CONTACT_LABEL_ROCKET_GAP,
+          bottom: bounds.bottom + CONTACT_LABEL_ROCKET_GAP,
+        });
+      };
+
+      addRect(
+        rocketButtonRef.current?.querySelector<HTMLElement>(
+          ".contact-form__rocket",
+        ) ?? null,
+      );
+      addRect(rocketFlightLayerRef.current);
+
+      return rects;
+    };
+
+    const rectanglesOverlap = (
+      first: { left: number; top: number; right: number; bottom: number },
+      second: { left: number; top: number; right: number; bottom: number },
+    ) =>
+      first.left < second.right &&
+      first.right > second.left &&
+      first.top < second.bottom &&
+      first.bottom > second.top;
+
     const positionOrbitItems = (progress: number) => {
       const { width, height, homeX, homeY } = layout;
+      const rocketCollisionRects = getRocketCollisionRects();
 
       ORBITS.forEach((orbit, index) => {
         const { x: planetX, y: planetY } = getPlanetPosition(orbit, progress);
@@ -705,43 +757,81 @@ export function ContactSection({
         const directionY = differenceY / distance;
         const labelWidth = Math.max(label.offsetWidth, label.scrollWidth);
         const labelHeight = Math.max(label.offsetHeight, label.scrollHeight);
-        const labelHalfExtent =
-          Math.abs(directionX) * labelWidth * 0.5 +
-          Math.abs(directionY) * labelHeight * 0.5;
         const labelGap = CONTACT_PLANET_LABEL_GAP;
-        const labelDistance = planetRadius + labelHalfExtent + labelGap;
+        const shouldAvoidRocket = orbit.name === "email";
+        const labelDirections =
+          shouldAvoidRocket
+            ? [
+                { x: directionX, y: directionY },
+                { x: -directionY, y: directionX },
+                { x: directionY, y: -directionX },
+                { x: -directionX, y: -directionY },
+                { x: 1, y: 0 },
+                { x: -1, y: 0 },
+                { x: 0, y: 1 },
+                { x: 0, y: -1 },
+              ]
+            : [{ x: directionX, y: directionY }];
 
-        // The orbit system is scaled around its home position. Clamp the
-        // label after that transform so the text stays inside the stage at
-        // narrow widths instead of being clipped by the viewport edge.
-        const labelCenterX = planetX + directionX * labelDistance;
-        const labelCenterY = planetY + directionY * labelDistance;
-        const visibleLabelHalfWidth =
-          labelWidth * CONTACT_SYSTEM_SCALE * 0.5;
-        const visibleLabelHalfHeight =
-          labelHeight * CONTACT_SYSTEM_SCALE * 0.5;
-        const transformedLabelCenterX =
-          homeX + (labelCenterX - homeX) * CONTACT_SYSTEM_SCALE;
-        const transformedLabelCenterY =
-          homeY + (labelCenterY - homeY) * CONTACT_SYSTEM_SCALE;
-        const safeLabelCenterX = clamp(
-          transformedLabelCenterX,
-          visibleLabelHalfWidth + 6,
-          width - visibleLabelHalfWidth - 6,
-        );
-        const safeLabelCenterY = clamp(
-          transformedLabelCenterY,
-          visibleLabelHalfHeight + 6,
-          height - visibleLabelHalfHeight - 6,
-        );
-        const clampedLabelCenterX =
-          homeX + (safeLabelCenterX - homeX) / CONTACT_SYSTEM_SCALE;
-        const clampedLabelCenterY =
-          homeY + (safeLabelCenterY - homeY) / CONTACT_SYSTEM_SCALE;
+        let labelPositioned = false;
 
-        label.style.left = `${clampedLabelCenterX - planetX}px`;
-        label.style.top = `${clampedLabelCenterY - planetY}px`;
-        label.style.right = "auto";
+        labelDirections.forEach(({ x: candidateX, y: candidateY }) => {
+          if (labelPositioned) {
+            return;
+          }
+
+          const candidateDistance = Math.hypot(candidateX, candidateY) || 1;
+          const normalizedX = candidateX / candidateDistance;
+          const normalizedY = candidateY / candidateDistance;
+          const labelHalfExtent =
+            Math.abs(normalizedX) * labelWidth * 0.5 +
+            Math.abs(normalizedY) * labelHeight * 0.5;
+          const labelDistance = planetRadius + labelHalfExtent + labelGap;
+
+          // The orbit system is scaled around its home position. Clamp the
+          // label after that transform so the text stays inside the stage at
+          // narrow widths instead of being clipped by the viewport edge.
+          const labelCenterX = planetX + normalizedX * labelDistance;
+          const labelCenterY = planetY + normalizedY * labelDistance;
+          const visibleLabelHalfWidth =
+            labelWidth * CONTACT_SYSTEM_SCALE * 0.5;
+          const visibleLabelHalfHeight =
+            labelHeight * CONTACT_SYSTEM_SCALE * 0.5;
+          const transformedLabelCenterX =
+            homeX + (labelCenterX - homeX) * CONTACT_SYSTEM_SCALE;
+          const transformedLabelCenterY =
+            homeY + (labelCenterY - homeY) * CONTACT_SYSTEM_SCALE;
+          const safeLabelCenterX = clamp(
+            transformedLabelCenterX,
+            visibleLabelHalfWidth + 6,
+            width - visibleLabelHalfWidth - 6,
+          );
+          const safeLabelCenterY = clamp(
+            transformedLabelCenterY,
+            visibleLabelHalfHeight + 6,
+            height - visibleLabelHalfHeight - 6,
+          );
+          const clampedLabelCenterX =
+            homeX + (safeLabelCenterX - homeX) / CONTACT_SYSTEM_SCALE;
+          const clampedLabelCenterY =
+            homeY + (safeLabelCenterY - homeY) / CONTACT_SYSTEM_SCALE;
+
+          label.style.left = `${clampedLabelCenterX - planetX}px`;
+          label.style.top = `${clampedLabelCenterY - planetY}px`;
+          label.style.right = "auto";
+
+          const labelBounds = label.getBoundingClientRect();
+          labelPositioned =
+            !shouldAvoidRocket ||
+            !rocketCollisionRects.some((rocketRect) =>
+              rectanglesOverlap(labelBounds, rocketRect),
+            );
+        });
+
+        // If every fallback direction is occupied during a landing, keep the
+        // copy readable to assistive technology but remove the visual overlap.
+        label.style.opacity =
+          shouldAvoidRocket && !labelPositioned ? "0" : "";
       });
     };
 
@@ -775,6 +865,7 @@ export function ContactSection({
       rings.style.transform = `translate3d(${homeX}px, ${homeY}px, 0) scale(${scale})`;
 
       positionOrbitItems(0);
+      landedRocketPositionRef.current?.();
 
       positionConnectors(homeX, homeY, 0);
     };
@@ -980,6 +1071,7 @@ export function ContactSection({
       system.style.transform = `scale(${CONTACT_SYSTEM_SCALE})`;
       sun.style.transform = `translate3d(${systemSunPosition.x}px, ${systemSunPosition.y}px, 0)`;
       positionOrbitItems(orbitProgress);
+      landedRocketPositionRef.current?.();
       positionConnectors(
         systemSunPosition.x,
         systemSunPosition.y,
@@ -1645,6 +1737,10 @@ export function ContactSection({
     let previousFormBusy: string | null = null;
     let previousContactFlight: string | undefined;
     let previousContactSubmission: string | undefined;
+    const rocketOverlay = document.createElement("div");
+    rocketOverlay.className = "contact-rocket-overlay";
+    rocketOverlay.setAttribute("aria-hidden", "true");
+    document.body.appendChild(rocketOverlay);
 
     const getLivePlanetMetrics = () => {
       const bounds = emailPlanet.getBoundingClientRect();
@@ -1716,49 +1812,58 @@ export function ContactSection({
       };
     };
 
-    const getPlanetAttachmentScale = () => {
-      const planetBounds = emailPlanet.getBoundingClientRect();
-      const planetWidth = emailPlanet.offsetWidth || planetBounds.width;
-
-      return planetBounds.width > 0 && planetWidth > 0
-        ? planetBounds.width / planetWidth
-        : CONTACT_SYSTEM_SCALE;
-    };
-
     const positionLandedRocketOnPlanet = (
       rocketLayer: HTMLElement,
       bounce = 0,
     ) => {
-      const attachmentScale = getPlanetAttachmentScale();
-      const inverseAttachmentScale = 1 / Math.max(0.01, attachmentScale);
-      const localVisibleBottomOffset =
-        (rocketPngVisibleBottomOffset -
-          CONTACT_ROCKET_FLIGHT_CONFIG.landingOverlap) /
-        Math.max(0.01, attachmentScale);
-      const localBounce = bounce / Math.max(0.01, attachmentScale);
+      const planetBounds = emailPlanet.getBoundingClientRect();
+      const planetStyles = window.getComputedStyle(emailPlanet);
+      const planetWidth = emailPlanet.offsetWidth || planetBounds.width;
+      const attachmentScale =
+        planetBounds.width > 0 && planetWidth > 0
+          ? planetBounds.width / planetWidth
+          : CONTACT_SYSTEM_SCALE;
+      const planetSize =
+        Number(planetStyles.getPropertyValue("--planet-size").replace("px", "")) ||
+        planetWidth;
+      const turnAngle = CONTACT_ROCKET_FLIGHT_CONFIG.counterclockwiseTurn;
+      const rotatedRocketHalfHeight =
+        Math.abs(Math.sin(turnAngle)) * rocketWidth / 2 +
+        Math.abs(Math.cos(turnAngle)) * rocketHeight / 2;
+      const visibleRocketBottomOffset =
+        rocketPngVisibleBottomOffset > 0
+          ? rocketPngVisibleBottomOffset
+          : rotatedRocketHalfHeight *
+            CONTACT_ROCKET_FLIGHT_CONFIG.landingVisualScale;
+      const landingCenter = {
+        x: planetBounds.left + planetBounds.width / 2,
+        y:
+          planetBounds.top +
+          planetBounds.height / 2 -
+          (attachmentScale * planetSize) / 2 -
+          visibleRocketBottomOffset +
+          CONTACT_ROCKET_FLIGHT_CONFIG.landingOverlap +
+          bounce,
+      };
 
       rocketLayer.dataset.flightAnchor = "planet";
       rocketLayer.style.position = "absolute";
-      rocketLayer.style.left = "50%";
-      rocketLayer.style.top = "50%";
+      rocketLayer.style.left = `${landingCenter.x}px`;
+      rocketLayer.style.top = `${landingCenter.y}px`;
       rocketLayer.style.width = `${rocketWidth}px`;
       rocketLayer.style.height = `${rocketHeight}px`;
-      rocketLayer.style.setProperty(
-        "--rocket-landing-offset",
-        `${localVisibleBottomOffset}px`,
-      );
+      rocketLayer.style.filter = planetStyles.filter;
       rocketLayer.style.transform =
-        `translate3d(-50%, calc(-50% - var(--planet-size) / 2 - ${localVisibleBottomOffset}px + ${localBounce}px), 0) rotate(${CONTACT_ROCKET_FLIGHT_CONFIG.counterclockwiseTurn}rad) scale(${inverseAttachmentScale})`;
-      rocketFlightAngleRef.current =
-        CONTACT_ROCKET_FLIGHT_CONFIG.counterclockwiseTurn;
+        `translate3d(-50%, -50%, 0) rotate(${turnAngle}rad)`;
+      rocketFlightAngleRef.current = turnAngle;
     };
 
     const attachLandedRocketToPlanet = (
       rocketLayer: HTMLElement,
       bounce = 0,
     ) => {
-      if (rocketLayer.parentNode !== emailPlanet) {
-        emailPlanet.appendChild(rocketLayer);
+      if (rocketLayer.parentNode !== rocketOverlay) {
+        rocketOverlay.appendChild(rocketLayer);
       }
       positionLandedRocketOnPlanet(rocketLayer, bounce);
     };
@@ -1771,13 +1876,15 @@ export function ContactSection({
       };
 
       rocketLayer.removeAttribute("data-flight-anchor");
-      document.body.appendChild(rocketLayer);
-      rocketLayer.style.position = "fixed";
+      if (rocketLayer.parentNode !== rocketOverlay) {
+        rocketOverlay.appendChild(rocketLayer);
+      }
+      rocketLayer.style.position = "absolute";
       rocketLayer.style.left = `${center.x}px`;
       rocketLayer.style.top = `${center.y}px`;
       rocketLayer.style.width = `${rocketWidth}px`;
       rocketLayer.style.height = `${rocketHeight}px`;
-      rocketLayer.style.removeProperty("--rocket-landing-offset");
+      rocketLayer.style.removeProperty("filter");
       rocketLayer.style.transform =
         `translate3d(-50%, -50%, 0) rotate(${rocketFlightAngleRef.current}rad)`;
 
@@ -2034,9 +2141,20 @@ export function ContactSection({
     };
 
     const clearLandedRocket = () => {
-      landedRocket?.parentNode?.removeChild(landedRocket);
+      const rocketToClear = landedRocket;
+      rocketToClear?.parentNode?.removeChild(rocketToClear);
+      if (rocketFlightLayerRef.current === rocketToClear) {
+        rocketFlightLayerRef.current = null;
+      }
       landedRocket = null;
     };
+
+    const updateLandedRocketPosition = () => {
+      if (landedRocket) {
+        positionLandedRocketOnPlanet(landedRocket);
+      }
+    };
+    landedRocketPositionRef.current = updateLandedRocketPosition;
 
     const restoreSubmissionLock = () => {
       controlsBeforeFlight.forEach(({ element, disabled }) => {
@@ -2081,11 +2199,12 @@ export function ContactSection({
       if (preserveLandedRocket && flightLayer) {
         landedRocket = flightLayer;
         attachLandedRocketToPlanet(landedRocket);
+        rocketFlightLayerRef.current = landedRocket;
       } else if (flightLayer?.parentNode) {
         flightLayer.parentNode.removeChild(flightLayer);
+        rocketFlightLayerRef.current = null;
       }
       flightLayer = null;
-      rocketFlightLayerRef.current = null;
       rocketFlightAngleRef.current = 0;
       activePlan = null;
       launchCenter = null;
@@ -2516,8 +2635,8 @@ export function ContactSection({
           flightLayer = rocket.cloneNode(true) as HTMLElement;
           flightLayer.classList.add("contact-flight-rocket");
           flightLayer.setAttribute("aria-hidden", "true");
-          flightLayer.style.position = "fixed";
-          flightLayer.style.zIndex = "2000";
+          flightLayer.style.position = "absolute";
+          flightLayer.style.zIndex = "1";
           flightLayer.style.pointerEvents = "none";
           flightLayer.style.width = `${rocketWidth}px`;
           flightLayer.style.height = `${rocketHeight}px`;
@@ -2532,7 +2651,7 @@ export function ContactSection({
           ignitionSmoke.className = "contact-flight-ignition-smoke";
           ignitionSmoke.setAttribute("aria-hidden", "true");
           flightLayer.appendChild(ignitionSmoke);
-          document.body.appendChild(flightLayer);
+          rocketOverlay.appendChild(flightLayer);
           rocketFlightLayerRef.current = flightLayer;
 
           // Hiding the original after the clone is in place preserves the
@@ -2581,6 +2700,10 @@ export function ContactSection({
         settleFlight(new Error("Contact section unmounted."));
       }
       clearLandedRocket();
+      if (landedRocketPositionRef.current === updateLandedRocketPosition) {
+        landedRocketPositionRef.current = null;
+      }
+      rocketOverlay.remove();
       if (startRocketFlightRef.current === startFlight) {
         startRocketFlightRef.current = null;
       }
