@@ -30,7 +30,7 @@ export function SearchBar({ onSearch }: SearchBarProps) {
         <span className="sr-only">Search Ray Xu&apos;s portfolio</span>
         <input
           id="portfolio-search"
-          className="w-full min-w-0 bg-transparent font-mono leading-none tracking-[0.06em] text-[#313949] caret-[#6547e8] outline-none placeholder:text-[#7d8390]"
+          className="w-full min-w-0 bg-transparent font-mono leading-none tracking-[0.06em] text-[#313949] caret-[#8f422b] outline-none placeholder:text-[#7d8390]"
           type="text"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
@@ -47,7 +47,7 @@ export function SearchBar({ onSearch }: SearchBarProps) {
       </label>
 
       <button
-        className="search-bar__submit group grid shrink-0 place-items-center rounded-full bg-[radial-gradient(circle_at_35%_25%,#7762ef_0%,#6547e8_52%,#5839d9_100%)] text-white shadow-[0_8px_18px_rgba(101,71,232,0.25)] transition-[transform,filter] duration-200 hover:scale-[1.04] hover:brightness-95 active:scale-95 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#6547e8]/20 motion-reduce:transition-none"
+        className="search-bar__submit group grid shrink-0 place-items-center rounded-full bg-[radial-gradient(circle_at_35%_25%,#e3a082_0%,#c46f4c_52%,#a34c33_100%)] text-white shadow-[0_8px_18px_rgba(163,76,51,0.25)] transition-[transform,filter] duration-200 hover:scale-[1.04] hover:brightness-95 active:scale-95 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#c46f4c]/20 motion-reduce:transition-none"
         type="submit"
         aria-label="Go to the matching portfolio section"
       >

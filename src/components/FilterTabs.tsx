@@ -34,9 +34,9 @@ export function FilterTabs({
             return (
               <button
                 key={filter}
-                className={`filter-tab relative pb-[14px] text-[15px] font-normal leading-none transition-colors duration-200 after:absolute after:bottom-0 after:left-1/2 after:h-[3px] after:w-8 after:-translate-x-1/2 after:rounded-full after:bg-[#6547e8] after:transition-transform after:duration-200 hover:text-[#6547e8] focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#6547e8]/15 motion-reduce:transition-none motion-reduce:after:transition-none sm:text-base ${
+                className={`filter-tab relative pb-[14px] text-[15px] font-normal leading-none transition-colors duration-200 after:absolute after:bottom-0 after:left-1/2 after:h-[3px] after:w-8 after:-translate-x-1/2 after:rounded-full after:bg-[#b45f3f] after:transition-transform after:duration-200 hover:text-[#8f422b] focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#b45f3f]/15 motion-reduce:transition-none motion-reduce:after:transition-none sm:text-base ${
                   isActive
-                    ? "text-[#6547e8] after:scale-x-100"
+                    ? "text-[#8f422b] after:scale-x-100"
                     : "text-[#596174] after:scale-x-0"
                 } ${filter === "All" ? "lg:mr-3" : ""}`}
                 type="button"

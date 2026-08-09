@@ -82,7 +82,7 @@ export function SearchResultCard({
 
   return (
     <a
-      className={`result-card ${isWaterloo ? "result-card--waterloo" : ""} group grid h-full w-full min-w-0 grid-cols-[58px_minmax(0,1fr)] items-start gap-x-5 gap-y-4 rounded-[24px] border border-[rgba(38,48,68,0.035)] bg-white px-5 shadow-[0_14px_36px_rgba(44,38,31,0.055),inset_0_1px_0_rgba(255,255,255,0.96)] transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_42px_rgba(44,38,31,0.085),inset_0_1px_0_rgba(255,255,255,0.96)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#6547e8]/15 motion-reduce:transition-none sm:flex sm:items-center sm:gap-6 sm:rounded-[28px] sm:px-8 ${
+      className={`result-card ${isWaterloo ? "result-card--waterloo" : ""} group grid h-full w-full min-w-0 grid-cols-[58px_minmax(0,1fr)] items-start gap-x-5 gap-y-4 rounded-[24px] border border-[rgba(38,48,68,0.035)] bg-white px-5 shadow-[0_14px_36px_rgba(44,38,31,0.055),inset_0_1px_0_rgba(255,255,255,0.96)] transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_42px_rgba(44,38,31,0.085),inset_0_1px_0_rgba(255,255,255,0.96)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#b45f3f]/15 motion-reduce:transition-none sm:flex sm:items-center sm:gap-6 sm:rounded-[28px] sm:px-8 ${
         compact
           ? "min-h-[145px] py-3 sm:min-h-[145px] sm:py-3"
           : "min-h-[178px] py-6 sm:min-h-[178px] sm:py-7"
@@ -92,12 +92,12 @@ export function SearchResultCard({
       aria-label={sponsored ? `Sponsored result: ${details.ariaLabel}` : details.ariaLabel}
     >
       <span
-        className={`mt-0.5 grid h-[58px] w-[58px] shrink-0 place-items-center self-start overflow-hidden rounded-full text-[24px] font-medium text-white shadow-[0_8px_16px_rgba(101,71,232,0.18)] sm:h-[62px] sm:w-[62px] ${
+        className={`mt-0.5 grid h-[58px] w-[58px] shrink-0 place-items-center self-start overflow-hidden rounded-full text-[24px] font-medium text-white shadow-[0_8px_16px_rgba(180,95,63,0.18)] sm:h-[62px] sm:w-[62px] ${
           isWaterloo
             ? "bg-black"
             : isHobbies
-              ? "bg-[radial-gradient(circle_at_35%_25%,#9b7adf_0%,#7652c8_55%,#5d3aa7_100%)]"
-              : "bg-[radial-gradient(circle_at_35%_25%,#7762ef_0%,#6547e8_55%,#5a3ed8_100%)]"
+              ? "bg-[radial-gradient(circle_at_35%_25%,#d59b7e_0%,#b45f3f_55%,#8f422b_100%)]"
+              : "bg-[radial-gradient(circle_at_35%_25%,#c68566_0%,#a85b3d_55%,#864028_100%)]"
         }`}
         aria-hidden="true"
       >
@@ -122,7 +122,7 @@ export function SearchResultCard({
           <strong className="result-title block text-[22px] font-medium leading-tight sm:text-[25px]">
             {details.title}
           </strong>
-          <span className="result-card-url mt-1 block text-[14px] font-medium leading-snug text-[#6547e8] sm:text-[15px]">
+          <span className="result-card-url mt-1 block text-[14px] font-medium leading-snug text-[#a85b3d] sm:text-[15px]">
             {details.url}
           </span>
         </span>
@@ -145,7 +145,7 @@ export function SearchResultCard({
         </span>
       </span>
 
-      <span className="ml-1 mr-1 hidden h-[60px] w-[72px] shrink-0 place-items-center rounded-[19px] border border-[#e6e5eb] bg-white text-[#6547e8] shadow-[0_5px_14px_rgba(40,35,60,0.045)] sm:grid">
+      <span className="ml-1 mr-1 hidden h-[60px] w-[72px] shrink-0 place-items-center rounded-[19px] border border-[#eadfd8] bg-white text-[#a85b3d] shadow-[0_5px_14px_rgba(83,52,40,0.045)] sm:grid">
         <ArrowRight
           className="h-6 w-6 transition-transform duration-200 group-hover:translate-x-[3px] motion-reduce:transition-none"
           strokeWidth={1.8}

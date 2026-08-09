@@ -24,10 +24,12 @@
   --panel: rgba(8, 13, 22, 0.76);
   --text: #263044;
   --muted: #687286;
-  --blue: #76a6ff;
-  --line: rgba(184, 210, 244, 0.25);
-  --overview-blue: #087eff;
-  --overview-ink: #1d3151;
+  --accent: #b45f3f;
+  --accent-strong: #8f422b;
+  --accent-soft: #f5e5dc;
+  --line: rgba(214, 177, 159, 0.25);
+  --overview-accent: #a85b3d;
+  --overview-ink: #4f3930;
   --contact-page-background:
     radial-gradient(
       ellipse 37% 31% at 52% 111%,
@@ -131,7 +133,7 @@ button:disabled {
 }
 
 .nav-links a:hover {
-  color: #6547e8;
+  color: var(--accent-strong);
   transform: translateY(-1px);
 }
 
@@ -225,16 +227,16 @@ button:disabled {
   grid-template-columns: 1fr 1px 1fr 1px 1fr;
   align-items: center;
   overflow: hidden;
-  border: 1px solid #20283a;
+  border: 1px solid #3a2a24;
   border-radius: 24px;
-  color: #bdc8da;
+  color: #d9c5b7;
   background:
     radial-gradient(
       92px 32px at 34% 0%,
-      rgba(72, 88, 116, 0.16),
+      rgba(147, 91, 65, 0.18),
       transparent 75%
     ),
-    linear-gradient(180deg, rgba(18, 24, 36, 0.98), rgba(13, 18, 28, 0.98));
+    linear-gradient(180deg, rgba(44, 32, 28, 0.98), rgba(27, 20, 18, 0.98));
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.035),
     0 9px 22px rgba(0, 0, 0, 0.34);
@@ -253,8 +255,8 @@ html[data-contact-page="true"] .social-dock {
   background: linear-gradient(
     180deg,
     transparent,
-    #2b3549 18%,
-    #2b3549 82%,
+    #4a342a 18%,
+    #4a342a 82%,
     transparent
   );
 }
@@ -279,10 +281,10 @@ html[data-contact-page="true"] .social-dock {
   background:
     radial-gradient(
       42px 30px at 50% 0%,
-      rgba(178, 209, 250, 0.18),
+      rgba(226, 157, 124, 0.2),
       transparent 78%
     ),
-    linear-gradient(180deg, rgba(109, 142, 187, 0.11), rgba(64, 89, 126, 0.05));
+    linear-gradient(180deg, rgba(180, 95, 63, 0.16), rgba(120, 60, 40, 0.06));
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
   transition: opacity 0.18s ease;
 }
@@ -296,8 +298,8 @@ html[data-contact-page="true"] .social-dock {
   border-radius: 999px;
   opacity: 0;
   content: "";
-  background: #91b9f0;
-  box-shadow: 0 0 8px rgba(123, 173, 239, 0.68);
+  background: #d28b68;
+  box-shadow: 0 0 8px rgba(210, 139, 104, 0.68);
   transform: translateX(-50%) scaleX(0.45);
   transition:
     opacity 0.18s ease,
@@ -306,7 +308,7 @@ html[data-contact-page="true"] .social-dock {
 
 .social-dock a:hover,
 .social-dock a:focus-visible {
-  color: #f7faff;
+  color: #fff7f2;
   outline: none;
 }
 
@@ -383,7 +385,7 @@ html[data-contact-page="true"] .social-dock {
 }
 
 .search-panel .result-title {
-  color: #8fbdfc;
+  color: var(--overview-accent);
   font-family: "Quicksand", sans-serif;
   font-weight: 500;
   letter-spacing: -0.35px;
@@ -5007,13 +5009,13 @@ html[data-contact-page="true"] .social-dock {
   overflow: hidden;
   min-height: 190px;
   padding: 28px 24px 25px;
-  border: 1px solid rgba(221, 226, 232, 0.78);
+  border: 1px solid rgba(228, 210, 199, 0.86);
   border-radius: 18px;
   color: var(--overview-ink);
-  background: rgba(249, 252, 255, 0.96);
+  background: rgba(255, 249, 244, 0.96);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.98),
-    0 1px 5px rgba(51, 77, 111, 0.025);
+    0 1px 5px rgba(102, 66, 48, 0.035);
   font-family: "SFMono-Regular", "Roboto Mono", Menlo, Monaco, Consolas,
     "Liberation Mono", monospace;
 }
@@ -5029,7 +5031,7 @@ html[data-contact-page="true"] .social-dock {
 
 .ai-overview__star {
   width: 20px;
-  color: var(--overview-blue);
+  color: var(--overview-accent);
   font-family: Georgia, "Times New Roman", serif;
   font-size: 23px;
   font-weight: 400;
@@ -5039,7 +5041,7 @@ html[data-contact-page="true"] .social-dock {
 
 .ai-overview h2 {
   margin: 0;
-  color: var(--overview-blue);
+  color: var(--overview-accent);
   font-size: 15.4px;
   font-weight: 600;
   line-height: 1;
@@ -5059,7 +5061,7 @@ html[data-contact-page="true"] .social-dock {
 }
 
 .ai-overview__copy strong {
-  color: var(--overview-blue);
+  color: var(--overview-accent);
   font-weight: 600;
 }
 
@@ -5123,13 +5125,13 @@ html[data-contact-page="true"] .social-dock {
   align-items: center;
   gap: 9px;
   flex: 0 0 auto;
-  border: 1px solid rgba(226, 230, 235, 0.95);
+  border: 1px solid rgba(232, 217, 208, 0.95);
   border-radius: 10px;
   color: var(--overview-ink);
   background: rgba(255, 255, 255, 0.84);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.95),
-    0 3px 8px rgba(52, 78, 112, 0.08);
+    0 3px 8px rgba(99, 66, 50, 0.08);
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
   font-size: 14.3px;
   font-weight: 500;
@@ -5141,7 +5143,7 @@ html[data-contact-page="true"] .social-dock {
   width: 21px;
   height: 21px;
   flex: 0 0 auto;
-  color: #087eff;
+  color: var(--overview-accent);
 }
 
 .ai-overview__skill-icon--python {
@@ -5175,10 +5177,10 @@ html[data-contact-page="true"] .social-dock {
   opacity: 0.92;
   background: radial-gradient(
     ellipse at 52% 48%,
-    rgba(105, 187, 255, 0.62) 0%,
-    rgba(133, 203, 255, 0.43) 31%,
-    rgba(192, 228, 255, 0.26) 54%,
-    rgba(238, 248, 255, 0.08) 70%,
+    rgba(207, 127, 91, 0.42) 0%,
+    rgba(224, 157, 124, 0.3) 31%,
+    rgba(244, 206, 187, 0.2) 54%,
+    rgba(255, 244, 237, 0.08) 70%,
     transparent 78%
   );
   filter: blur(5px);
@@ -5188,7 +5190,7 @@ html[data-contact-page="true"] .social-dock {
 .ai-overview__sparkle {
   position: absolute;
   z-index: 2;
-  color: var(--overview-blue);
+  color: var(--overview-accent);
   font-family: Georgia, "Times New Roman", serif;
   font-weight: 400;
   line-height: 1;
@@ -5214,8 +5216,8 @@ html[data-contact-page="true"] .social-dock {
   bottom: 43px;
   width: 67px;
   height: 63px;
-  border-right: 1px solid var(--overview-blue);
-  border-bottom: 1px solid var(--overview-blue);
+  border-right: 1px solid var(--overview-accent);
+  border-bottom: 1px solid var(--overview-accent);
   border-bottom-right-radius: 72px;
   pointer-events: none;
 }
@@ -5226,8 +5228,8 @@ html[data-contact-page="true"] .social-dock {
   top: -1px;
   width: 8px;
   height: 8px;
-  border-top: 1px solid var(--overview-blue);
-  border-right: 1px solid var(--overview-blue);
+  border-top: 1px solid var(--overview-accent);
+  border-right: 1px solid var(--overview-accent);
   content: "";
   transform: rotate(-18deg);
   transform-origin: top right;
@@ -5425,7 +5427,7 @@ html[data-theme="dark"] {
   --text: #e8f1ff;
   --muted: #9bacc8;
   --line: rgba(132, 175, 235, 0.25);
-  --overview-blue: #9fc7ff;
+  --overview-accent: #9fc7ff;
   --overview-ink: #d9e7ff;
   --contact-page-background:
     radial-gradient(
