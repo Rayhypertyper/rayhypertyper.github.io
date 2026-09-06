@@ -16,7 +16,7 @@ const content: Record<ResultFilter, ResultContent> = {
     url: "uwaterloo.ca",
     href: "https://uwaterloo.ca",
     waterlooLogo: true,
-    description: "More to come Soon™",
+    description: "Finding clubs...",
   },
   projects: {
     count: "About 4 results (0.02s)",
