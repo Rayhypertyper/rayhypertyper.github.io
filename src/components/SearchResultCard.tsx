@@ -89,7 +89,7 @@ export function SearchResultCard({
       }`}
       href={details.href}
       id={isHobbies ? "hobbies" : undefined}
-      aria-label={sponsored ? `Sponsored result: ${details.ariaLabel}` : details.ariaLabel}
+      aria-label={isWaterloo ? undefined : sponsored ? `Sponsored result: ${details.ariaLabel}` : details.ariaLabel}
     >
       <span
         className={`mt-0.5 grid h-[58px] w-[58px] shrink-0 place-items-center self-start overflow-hidden rounded-full text-[24px] font-medium text-white shadow-[0_8px_16px_rgba(180,95,63,0.18)] sm:h-[62px] sm:w-[62px] ${

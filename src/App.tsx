@@ -3,7 +3,7 @@ import { FilterTabs, type FilterName } from "./components/FilterTabs";
 import { SearchBar } from "./components/SearchBar";
 import { SearchResultCard } from "./components/SearchResultCard";
 import { PersonalGlobe } from "./components/PersonalGlobe";
-import { AISummary } from "./components/AISummary";
+import { AllOverview } from "./components/AllOverview";
 import { ProjectsShowcase } from "./components/ProjectsShowcase";
 import { ExperienceTimeline } from "./components/ExperienceTimeline";
 import { AboutSection } from "./components/AboutSection";
@@ -47,7 +47,7 @@ export function App() {
 
   return (
     <section
-      className={`search-panel w-full rounded-[30px] border border-[rgba(20,20,30,0.04)] bg-[rgba(255,255,255,0.96)] px-5 pb-6 pt-6 text-[#263044] shadow-[0_28px_70px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.9)] sm:rounded-[40px] sm:px-8 sm:pb-8 sm:pt-9 lg:rounded-[52px] lg:px-14 lg:pb-7 lg:pt-8${activeFilter === "Map" ? " map-search-panel" : ""}${activeFilter === "Contact" ? " contact-search-panel" : ""}`}
+      className={`search-panel w-full rounded-[30px] border border-[rgba(20,20,30,0.04)] bg-[rgba(255,255,255,0.96)] px-5 pb-6 pt-6 text-[#263044] shadow-[0_28px_70px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.9)] sm:rounded-[40px] sm:px-8 sm:pb-8 sm:pt-9 lg:rounded-[52px] lg:px-14 lg:pb-7 lg:pt-8${activeFilter === "All" ? " all-search-panel" : ""}${activeFilter === "Map" ? " map-search-panel" : ""}${activeFilter === "Contact" ? " contact-search-panel" : ""}`}
       id="results"
       aria-label="Portfolio sections"
     >
@@ -70,12 +70,7 @@ export function App() {
           {activeFilter === "Projects" ? (
             <ProjectsShowcase />
           ) : activeFilter === "All" ? (
-            <div>
-              <div className="result-stack grid gap-[10px]">
-                <SearchResultCard compact sponsored variant="waterloo" />
-                <AISummary />
-              </div>
-            </div>
+            <AllOverview onProjectsClick={() => setActiveFilter("Projects")} />
           ) : activeFilter === "Map" ? (
             <section
               className="portfolio-map-panel"

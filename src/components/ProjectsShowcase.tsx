@@ -1,6 +1,5 @@
 import {
   ArrowRight,
-  Construction,
   ExternalLink,
   Settings,
 } from "lucide-react";
@@ -8,13 +7,6 @@ import { useRef } from "react";
 import { PaperPlaneDoodle } from "./PaperPlaneDoodle";
 
 const projects = [
-  {
-    title: "Youthward",
-    slug: "youthward",
-    date: "Jan 2025",
-    description: "Connecting Canadian youth with opportunities and resources.",
-    kind: "dashboard",
-  },
   {
     title: "DepartCan",
     slug: "departcan",
@@ -93,11 +85,10 @@ function TechChip({ kind, children }: { kind: string; children: string }) {
 }
 
 function ProjectListItem({ project }: { project: (typeof projects)[number] }) {
-  const isComingSoon = project.slug === "youthward";
   const projectContent = (
     <>
       <ProjectThumbnail kind={project.kind} />
-      <span className="projects-list__body" aria-hidden={isComingSoon}>
+      <span className="projects-list__body">
         <strong>{project.title}</strong>
         <small>rayxu.dev&nbsp; / &nbsp;projects&nbsp; /<br />{project.slug}</small>
         <span>{project.description}</span>
@@ -106,21 +97,6 @@ function ProjectListItem({ project }: { project: (typeof projects)[number] }) {
       <ArrowRight className="projects-list__arrow" size={18} strokeWidth={1.7} aria-hidden="true" />
     </>
   );
-
-  if (isComingSoon) {
-    return (
-      <article
-        className="projects-list__item projects-list__item--coming-soon"
-        aria-label={`${project.title} coming soon`}
-      >
-        {projectContent}
-        <div className="projects-list__coming-soon" role="status">
-          <Construction size={20} strokeWidth={1.7} aria-hidden="true" />
-          <span>Coming soon</span>
-        </div>
-      </article>
-    );
-  }
 
   const projectHref = project.href;
 
