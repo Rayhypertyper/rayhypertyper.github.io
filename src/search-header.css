@@ -1,0 +1,94 @@
+/* Canonical geometry extracted unchanged from the All / hero layout.
+   Shared by every filter; content sizing and scrolling remain page-specific. */
+.browser-frame:has(.search-header),
+.search-panel:has(.search-header) {
+  border: 0;
+}
+.search-panel .search-panel__inner {
+  max-width: 1500px;
+  padding-top: clamp(24px, 2.5vw, 36px);
+}
+/* Preserve the original sibling/flex layout without adding a sizing box. */
+.search-header { display: contents; }
+@media (max-width: 767px) {
+  .search-panel .search-panel__inner {
+    padding-top: 20px;
+    padding-inline: 24px;
+  }
+}
+@media (max-width: 380px) {
+  .search-panel .search-panel__inner { padding-inline: 18px; }
+}
+@media (min-width: 768px) {
+  .search-panel .search-panel__inner {
+    padding-top: clamp(8px, 2.4svh, 24px);
+  }
+}
+@media (min-width: 768px) and (max-height: 575px) {
+  .search-panel .search-panel__inner { padding-top: 8px; }
+}
+@media (max-width: 767px) {
+  .search-header .filters-scroll {
+    overflow-x: auto;
+    padding: 4px;
+    margin: -4px;
+    scrollbar-width: none;
+  }
+  .search-header [role="tablist"] {
+    flex-wrap: nowrap;
+    min-width: max-content;
+    gap: 16px;
+  }
+}
+@media (min-width: 768px) {
+  .search-header .search-bar {
+    flex: 0 0 auto;
+    height: clamp(58px, 9svh, 86px);
+  }
+  .search-header .search-bar > svg {
+    width: clamp(25px, 3.7svh, 34px);
+    height: clamp(25px, 3.7svh, 34px);
+  }
+  .search-header .search-bar input {
+    font-size: clamp(22px, min(2.45vw, 4svh), 38px);
+  }
+  .search-header .search-bar__submit {
+    width: clamp(44px, 7svh, 64px);
+    height: clamp(44px, 7svh, 64px);
+  }
+  .search-header .filter-tabs {
+    flex: 0 0 auto;
+    margin-top: clamp(10px, 2svh, 20px);
+  }
+  .search-header .filter-tab {
+    padding-bottom: clamp(8px, 1.35svh, 13px);
+  }
+  .search-header .filter-result-count {
+    position: absolute;
+    top: 0;
+    right: clamp(0px, 4vw, 62px);
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+  }
+}
+@media (min-width: 768px) and (max-height: 575px) {
+  .search-header .search-bar {
+    height: 50px;
+  }
+  .search-header .search-bar > svg {
+    width: 22px;
+    height: 22px;
+  }
+  .search-header .search-bar__submit {
+    width: 40px;
+    height: 40px;
+  }
+  .search-header .filter-tabs {
+    margin-top: 6px;
+  }
+  .search-header .filter-tab {
+    padding-bottom: 6px;
+    font-size: 14px;
+  }
+}

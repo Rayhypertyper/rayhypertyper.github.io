@@ -21,7 +21,7 @@ export function FilterTabs({
   resultCount = "About 5 results (0.01s)",
 }: FilterTabsProps) {
   return (
-    <div className="relative z-20 mt-7">
+    <div className="filter-tabs relative z-20 mt-7">
       <div className="filters-scroll">
         <div
           className="flex flex-wrap items-start gap-x-8 gap-y-5 px-1 sm:min-w-max sm:flex-nowrap sm:gap-11 sm:px-2 lg:gap-[54px] lg:px-3"

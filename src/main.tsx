@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { App } from "./App";
 import "../styles.css";
 import "./all-overview.css";
+import "./search-header.css";
 
 const resetDocumentScroll = () => {
   window.scrollTo({

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { FilterTabs, type FilterName } from "./components/FilterTabs";
-import { SearchBar } from "./components/SearchBar";
+import type { FilterName } from "./components/FilterTabs";
+import { SearchHeader } from "./components/SearchHeader";
 import { SearchResultCard } from "./components/SearchResultCard";
 import { PersonalGlobe } from "./components/PersonalGlobe";
 import { AllOverview } from "./components/AllOverview";
@@ -47,14 +47,13 @@ export function App() {
 
   return (
     <section
-      className={`search-panel w-full rounded-[30px] border border-[rgba(20,20,30,0.04)] bg-[rgba(255,255,255,0.96)] px-5 pb-6 pt-6 text-[#263044] shadow-[0_28px_70px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.9)] sm:rounded-[40px] sm:px-8 sm:pb-8 sm:pt-9 lg:rounded-[52px] lg:px-14 lg:pb-7 lg:pt-8${activeFilter === "All" ? " all-search-panel" : ""}${activeFilter === "Map" ? " map-search-panel" : ""}${activeFilter === "Contact" ? " contact-search-panel" : ""}`}
+      className={`search-panel w-full rounded-none border border-[rgba(20,20,30,0.04)] bg-[rgba(255,255,255,0.96)] px-5 pb-6 pt-6 text-[#263044] shadow-[0_28px_70px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.9)] sm:px-8 sm:pb-8 sm:pt-9 lg:px-14 lg:pb-7 lg:pt-8${activeFilter === "All" ? " all-search-panel" : ""}${activeFilter === "Map" ? " map-search-panel" : ""}${activeFilter === "Contact" ? " contact-search-panel" : ""}`}
       id="results"
       aria-label="Portfolio sections"
     >
       <div className="search-panel__inner">
-        <SearchBar onSearch={handleSearch} />
-
-        <FilterTabs
+        <SearchHeader
+          onSearch={handleSearch}
           activeFilter={activeFilter}
           onFilterChange={setActiveFilter}
           resultCount={resultCount}

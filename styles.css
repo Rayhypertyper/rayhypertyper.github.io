@@ -57,18 +57,23 @@
 
 html {
   min-width: 320px;
+  min-height: 100%;
   scroll-behavior: smooth;
 }
 
 body {
   min-width: 320px;
-  min-height: 100vh;
+  min-height: 100dvh;
   margin: 0;
   overflow-x: hidden;
   background: #f9f7f3;
   color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI",
     sans-serif;
+}
+
+main {
+  min-height: 100dvh;
 }
 
 a {
@@ -87,8 +92,7 @@ button:disabled {
 .browser-frame {
   position: relative;
   width: 100%;
-  height: 100vh;
-  height: 100svh;
+  height: 100dvh;
   min-height: 590px;
   margin: 0;
   overflow: hidden;
@@ -210,16 +214,17 @@ button:disabled {
 #portfolioSearchRoot {
   height: 100%;
   width: 100%;
+  min-height: 100%;
 }
 
 .social-dock {
-  position: fixed;
+  position: absolute;
   z-index: 8;
-  bottom: 25px;
+  bottom: 24px;
 }
 
 .social-dock {
-  left: 44px;
+  left: max(clamp(20px, 5vw, 72px), calc((100vw - 1356px) / 2));
   width: 174px;
   height: 56px;
   padding: 0;
@@ -243,8 +248,11 @@ button:disabled {
   backdrop-filter: blur(20px);
 }
 
-html[data-contact-page="true"] .social-dock {
-  display: none;
+/* Canonical landing-page footer offset for every portfolio section. */
+@media (min-width: 768px) {
+  .social-dock {
+    bottom: clamp(12px, 2.5svh, 24px);
+  }
 }
 
 .social-divider {
@@ -360,7 +368,7 @@ html[data-contact-page="true"] .social-dock {
 .search-panel {
   position: relative;
   min-height: 100%;
-  border-radius: 0;
+  border-radius: 0 !important;
   padding: clamp(24px, 4vw, 56px) clamp(20px, 5vw, 72px) 108px;
   font-family: Inter, ui-sans-serif, system-ui, sans-serif;
   isolation: isolate;
@@ -370,7 +378,7 @@ html[data-contact-page="true"] .social-dock {
   position: absolute;
   z-index: -1;
   inset: 0;
-  border-radius: inherit;
+  border-radius: 0;
   content: "";
   pointer-events: none;
   background: radial-gradient(
@@ -530,6 +538,10 @@ html[data-contact-page="true"] .social-dock {
 
 .search-panel.contact-search-panel .contact-experience {
   background: transparent;
+}
+
+html[data-contact-page="true"] .social-dock {
+  display: none;
 }
 
 .browser-frame:has(.contact-search-panel) {
@@ -5231,10 +5243,6 @@ html[data-contact-page="true"] .social-dock {
     gap: 22px;
   }
 
-  .social-dock {
-    left: 22px;
-  }
-
   .ai-overview__glow {
     right: 24px;
   }
@@ -5255,7 +5263,7 @@ html[data-contact-page="true"] .social-dock {
 @media (max-width: 639px) {
   .browser-frame {
     height: auto;
-    min-height: 100svh;
+    min-height: 100dvh;
   }
 
   .nav-links {
@@ -5263,7 +5271,6 @@ html[data-contact-page="true"] .social-dock {
   }
 
   .social-dock {
-    left: 12px;
     width: min(158px, 40vw);
     height: 52px;
     padding: 0;
@@ -5275,12 +5282,12 @@ html[data-contact-page="true"] .social-dock {
 
   .hero-content {
     position: relative;
-    min-height: 100svh;
+    min-height: 100dvh;
     width: 100%;
   }
 
   .search-panel {
-    min-height: 100svh;
+    min-height: 100dvh;
     padding: 20px 12px 96px;
   }
 
@@ -6031,7 +6038,7 @@ main {
   height: clamp(24px, 1.8vw, 28px);
 }
 
-.search-panel__inner > .relative.z-20 {
+.search-header > .filter-tabs {
   margin-top: clamp(20px, 2.2vw, 28px);
 }
 
@@ -6354,7 +6361,7 @@ main {
     height: 21px;
   }
 
-  .search-panel__inner > .relative.z-20 {
+  .search-header > .filter-tabs {
     margin-top: 18px;
   }
 
@@ -6944,11 +6951,12 @@ main {
 html,
 body {
   height: 100%;
+  min-height: 100dvh;
   overflow: hidden;
 }
 
 body {
-  min-height: 0;
+  min-height: 100dvh;
 }
 
 main,
@@ -6958,11 +6966,11 @@ main,
 .search-panel,
 .search-panel__inner {
   height: 100%;
-  min-height: 0;
+  min-height: 100dvh;
 }
 
 .browser-frame {
-  height: 100svh;
+  height: 100dvh;
   overflow: hidden;
 }
 
@@ -6979,7 +6987,7 @@ main,
 .browser-frame:has(.contact-search-panel) #portfolioSearchRoot,
 .browser-frame:has(.contact-search-panel) .search-panel {
   height: 100%;
-  min-height: 0;
+  min-height: 100dvh;
 }
 
 .browser-frame:has(.contact-search-panel) {
@@ -7013,7 +7021,7 @@ main:has(.about-under-construction),
 .browser-frame:has(.about-under-construction) .search-panel,
 .browser-frame:has(.about-under-construction) .search-panel__inner {
   height: auto;
-  min-height: 100svh;
+  min-height: 100dvh;
 }
 
 .browser-frame:has(.about-under-construction) {
